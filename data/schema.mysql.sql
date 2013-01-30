@@ -10,5 +10,6 @@ CREATE TABLE file
 	INDEX FK_file_account (account_id ASC),
 	CONSTRAINT FK_file_account FOREIGN KEY (account_id)
 		REFERENCES account (id) ON DELETE CASCADE ON UPDATE CASCADE
-);
+)
+ENGINE = InnoDB;
 
