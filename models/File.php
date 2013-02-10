@@ -13,9 +13,14 @@
  *
  * The followings are the available model relations:
  * @property Account $account
+ * 
+ * @property string directoryPath
+ * @property string path
  */
 class File extends CActiveRecord
 {
+	public $file;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -42,9 +47,10 @@ class File extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, extension, type, size, account_id', 'required'),
-			array('size, account_id', 'numerical', 'integerOnly'=>true),
-			array('name, extension, type', 'length', 'max'=>128),
+			array('file', 'file'),
+// 			array('name, extension, type, size, account_id', 'required'),
+// 			array('size, account_id', 'numerical', 'integerOnly'=>true),
+// 			array('name, extension, type', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, extension, type, size, account_id', 'safe', 'on'=>'search'),
@@ -99,5 +105,18 @@ class File extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	public function getDirectoryPath()
+	{
+		return Yii::app()->basePath.DIRECTORY_SEPARATOR.
+			Yii::app()->controller->module->filesPath.DIRECTORY_SEPARATOR.
+			$this->id.DIRECTORY_SEPARATOR;
+	}
+
+	public function getPath()
+	{
+		return $this->getDirectoryPath().DIRECTORY_SEPARATOR.
+			$this->name;
 	}
 }

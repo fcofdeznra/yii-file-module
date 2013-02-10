@@ -2,6 +2,8 @@
 
 class FileModule extends CWebModule
 {
+	public $filesPath;
+	
 	public function init()
 	{
 		// this method is called when the module is being created

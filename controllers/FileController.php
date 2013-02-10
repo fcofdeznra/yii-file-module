@@ -31,8 +31,8 @@ class FileController extends Controller
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+			array('allow', // allow authenticated user to perform 'create', 'update' and 'upload' actions
+				'actions'=>array('create','update','upload'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -139,6 +139,39 @@ class FileController extends Controller
 			$model->attributes=$_GET['File'];
 
 		$this->render('admin',array(
+			'model'=>$model,
+		));
+	}
+
+	/**
+	 * Uploads a file.
+	 * If upload is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionUpload()
+	{
+		$model=new File;
+	
+		if(isset($_POST['File']))
+		{
+			$model->attributes=$_POST['File'];
+			$model->file=CUploadedFile::getInstance($model, 'file');
+			if($model->validate())
+			{
+				$model->name=$model->file->name;
+				$model->extension=$model->file->extensionName;
+				$model->type=$model->file->type;
+				$model->size=$model->file->size;
+				$model->account_id=Yii::app()->user->id;
+				$model->save(false);
+				
+				mkdir($model->directoryPath);
+				$model->file->saveAs($model->path);
+				
+				$this->redirect(array('view','id'=>$model->id));
+			}
+		}
+	
+		$this->render('upload',array(
 			'model'=>$model,
 		));
 	}
