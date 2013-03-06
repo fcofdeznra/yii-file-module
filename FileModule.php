@@ -3,6 +3,7 @@
 class FileModule extends CWebModule
 {
 	public $filesPath;
+	public $thumbnailsPath;
 	
 	public function init()
 	{

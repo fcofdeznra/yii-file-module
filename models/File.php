@@ -16,9 +16,13 @@
  * 
  * @property string directoryPath
  * @property string path
+ * @property string thumbnailDirectoryPath
+ * @property string thumbnailPath
  */
 class File extends CActiveRecord
 {
+	private static $IMAGE_EXTENSIONS = array('gif','png','jpg','bmp','gd','gd2');
+	
 	public $file;
 	
 	/**
@@ -111,12 +115,30 @@ class File extends CActiveRecord
 	{
 		return Yii::app()->basePath.DIRECTORY_SEPARATOR.
 			Yii::app()->controller->module->filesPath.DIRECTORY_SEPARATOR.
-			$this->id.DIRECTORY_SEPARATOR;
+			$this->id;
 	}
 
 	public function getPath()
 	{
-		return $this->getDirectoryPath().DIRECTORY_SEPARATOR.
+		return $this->directoryPath.DIRECTORY_SEPARATOR.
 			$this->name;
+	}
+	
+	public function isImage()
+	{
+		return in_array(strtolower($this->extension),$this::$IMAGE_EXTENSIONS);
+	}
+	
+	public function getThumbnailDirectoryPath()
+	{
+		return Yii::app()->basePath.DIRECTORY_SEPARATOR.
+		Yii::app()->controller->module->thumbnailsPath.DIRECTORY_SEPARATOR.
+		$this->id;
+	}
+	
+	public function getThumbnailPath()
+	{
+		return $this->thumbnailDirectoryPath.DIRECTORY_SEPARATOR.
+		$this->name;
 	}
 }

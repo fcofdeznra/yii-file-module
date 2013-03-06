@@ -167,6 +167,12 @@ class FileController extends Controller
 				mkdir($model->directoryPath);
 				$model->file->saveAs($model->path);
 				
+				if($model->isImage())
+				{
+					mkdir($model->thumbnailDirectoryPath);
+					Yii::app()->thumbnailer->generate($model->path,$model->thumbnailPath);
+				}
+				
 				$this->redirect(array('view','id'=>$model->id));
 			}
 		}
