@@ -18,6 +18,10 @@
  * @property string path
  * @property string thumbnailDirectoryPath
  * @property string thumbnailPath
+ * @property string url
+ * @property string thumbnailOrIconUrl
+ * @property string thumbnailUrl
+ * @property string iconUrl
  */
 class File extends CActiveRecord
 {
@@ -113,15 +117,15 @@ class File extends CActiveRecord
 
 	public function getDirectoryPath()
 	{
-		return Yii::app()->basePath.DIRECTORY_SEPARATOR.
-			Yii::app()->controller->module->filesPath.DIRECTORY_SEPARATOR.
-			$this->id;
+		return	Yii::app()->basePath.DIRECTORY_SEPARATOR.
+				Yii::app()->controller->module->filesPath.DIRECTORY_SEPARATOR.
+				$this->id;
 	}
 
 	public function getPath()
 	{
-		return $this->directoryPath.DIRECTORY_SEPARATOR.
-			$this->name;
+		return	$this->directoryPath.DIRECTORY_SEPARATOR.
+				$this->name;
 	}
 	
 	public function isImage()
@@ -131,14 +135,44 @@ class File extends CActiveRecord
 	
 	public function getThumbnailDirectoryPath()
 	{
-		return Yii::app()->basePath.DIRECTORY_SEPARATOR.
-		Yii::app()->controller->module->thumbnailsPath.DIRECTORY_SEPARATOR.
-		$this->id;
+		return	Yii::app()->basePath.DIRECTORY_SEPARATOR.
+				Yii::app()->controller->module->thumbnailsPath.DIRECTORY_SEPARATOR.
+				$this->id;
 	}
 	
 	public function getThumbnailPath()
 	{
-		return $this->thumbnailDirectoryPath.DIRECTORY_SEPARATOR.
-		$this->name;
+		return	$this->thumbnailDirectoryPath.DIRECTORY_SEPARATOR.
+				$this->name;
+	}
+	
+	public function getUrl()
+	{
+		return	Yii::app()->baseUrl.'/'.
+				Yii::app()->controller->module->filesUrl.'/'.
+				$this->id.'/'.
+				rawurlencode($this->name);
+	}
+	
+	public function getThumbnailOrIconUrl()
+	{
+		if($this->isImage())
+			return	$this->thumbnailUrl;
+		return 	$this->iconUrl;
+	}
+	
+	public function getThumbnailUrl()
+	{
+		return	Yii::app()->baseUrl.'/'.
+				Yii::app()->controller->module->thumbnailsUrl.'/'.
+				$this->id.'/'.
+				rawurlencode($this->name);
+	}
+	
+	public function getIconUrl()
+	{
+		return 	Yii::app()->baseUrl.'/'.
+				Yii::app()->controller->module->iconsUrl.'/'.
+				str_replace('/', '-', $this->type) .'.png';
 	}
 }
