@@ -45,14 +45,26 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
 		'name',
 		'extension',
-		'type',
-		'size',
-		'account_id',
+		array(
+			'name'=>'size',
+			'header'=>'Size (bytes)',
+			'value'=>'Yii::app()->numberFormatter->format("#,##0",$data->size)',
+		),
 		array(
 			'class'=>'CButtonColumn',
+			'buttons'=>array(
+				'view'=>array(
+					'url'=>'$data->url',
+					'options'=>array(
+						'target'=>'_blank',
+					),
+				),
+				'update'=>array(
+					'visible'=>'false',
+				),
+			),
 		),
 	),
 )); ?>

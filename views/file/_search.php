@@ -12,23 +12,8 @@
 )); ?>
 
 	<div class="row">
-		<?php echo $form->label($model,'id'); ?>
-		<?php echo $form->textField($model,'id'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'name'); ?>
 		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>128)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'extension'); ?>
-		<?php echo $form->textField($model,'extension',array('size'=>60,'maxlength'=>128)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'type'); ?>
-		<?php echo $form->textField($model,'type',array('size'=>60,'maxlength'=>128)); ?>
 	</div>
 
 	<div class="row">
@@ -37,8 +22,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'account_id'); ?>
-		<?php echo $form->textField($model,'account_id'); ?>
+		<?php echo $form->label($model,'extension'); ?>
+		<?php echo $form->textField($model,'extension',array('size'=>60,'maxlength'=>128)); ?>
 	</div>
 
 	<div class="row buttons">

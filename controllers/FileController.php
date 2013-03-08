@@ -31,12 +31,12 @@ class FileController extends Controller
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
-			array('allow', // allow authenticated user to perform 'create', 'update' and 'upload' actions
-				'actions'=>array('create','update','upload'),
+			array('allow', // allow authenticated user to perform 'create', 'update', 'upload', 'admin' and 'delete' actions
+				'actions'=>array('create','update','upload','admin','delete'),
 				'users'=>array('@'),
 			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+			array('allow', // allow admin user to perform  actions
+				'actions'=>array(),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users

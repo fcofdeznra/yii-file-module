@@ -61,7 +61,7 @@ class File extends CActiveRecord
 // 			array('name, extension, type', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, extension, type, size, account_id', 'safe', 'on'=>'search'),
+			array('name, extension, size', 'safe', 'on'=>'search'),
 		);
 	}
 
