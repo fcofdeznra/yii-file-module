@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List File', 'url'=>array('index')),
-	array('label'=>'Create File', 'url'=>array('create')),
+	array('label'=>'Upload File', 'url'=>array('upload')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

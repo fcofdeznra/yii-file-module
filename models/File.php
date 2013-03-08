@@ -9,11 +9,7 @@
  * @property string $extension
  * @property string $type
  * @property integer $size
- * @property integer $account_id
  *
- * The followings are the available model relations:
- * @property Account $account
- * 
  * @property string directoryPath
  * @property string path
  * @property string thumbnailDirectoryPath
@@ -73,7 +69,6 @@ class File extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'account' => array(self::BELONGS_TO, 'Account', 'account_id'),
 		);
 	}
 
@@ -88,7 +83,6 @@ class File extends CActiveRecord
 			'extension' => 'Extension',
 			'type' => 'Type',
 			'size' => 'Size',
-			'account_id' => 'Account',
 		);
 	}
 
@@ -103,12 +97,9 @@ class File extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('extension',$this->extension,true);
-		$criteria->compare('type',$this->type,true);
 		$criteria->compare('size',$this->size);
-		$criteria->compare('account_id',$this->account_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

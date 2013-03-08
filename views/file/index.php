@@ -7,9 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create File', 'url'=>array('create')),
-	array('label'=>'Manage File', 'url'=>array('admin')),
 	array('label'=>'Upload File', 'url'=>array('upload')),
+	array('label'=>'Manage File', 'url'=>array('admin')),
 );
 ?>
 

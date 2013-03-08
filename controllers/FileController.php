@@ -27,17 +27,9 @@ class FileController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create', 'update', 'upload', 'admin' and 'delete' actions
-				'actions'=>array('create','update','upload','admin','delete'),
+			array('allow', // allow authenticated user to perform 'index', 'upload', 'admin' and 'delete' actions
+				'actions'=>array('index','upload','admin','delete'),
 				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform  actions
-				'actions'=>array(),
-				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -46,60 +38,66 @@ class FileController extends Controller
 	}
 
 	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
+	 * Lists all models.
 	 */
-	public function actionView($id)
+	public function actionIndex()
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+		$dataProvider=new CActiveDataProvider('File');
+		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
 		));
 	}
 
 	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 * Uploads a file.
+	 * If upload is successful, the browser will be redirected to the 'index' page.
 	 */
-	public function actionCreate()
+	public function actionUpload()
 	{
 		$model=new File;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
+	
 		if(isset($_POST['File']))
 		{
 			$model->attributes=$_POST['File'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			$model->file=CUploadedFile::getInstance($model, 'file');
+			if($model->validate())
+			{
+				$model->name=$model->file->name;
+				$model->extension=$model->file->extensionName;
+				$model->type=$model->file->type;
+				$model->size=$model->file->size;
+				$model->save(false);
+	
+				mkdir($model->directoryPath);
+				$model->file->saveAs($model->path);
+	
+				if($model->isImage())
+				{
+					mkdir($model->thumbnailDirectoryPath);
+					Yii::app()->thumbnailer->generate($model->path,$model->thumbnailPath);
+				}
+	
+				$this->redirect(array('index'));
+			}
 		}
-
-		$this->render('create',array(
+	
+		$this->render('upload',array(
 			'model'=>$model,
 		));
 	}
 
 	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
+	 * Manages all models.
 	 */
-	public function actionUpdate($id)
+	public function actionAdmin()
 	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['File']))
-		{
-			$model->attributes=$_POST['File'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
+		$model=new File('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['File']))
+			$model->attributes=$_GET['File'];
+	
+		$this->render('admin',array(
+				'model'=>$model,
 		));
 	}
 
@@ -126,71 +124,6 @@ class FileController extends Controller
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('File');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new File('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['File']))
-			$model->attributes=$_GET['File'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Uploads a file.
-	 * If upload is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionUpload()
-	{
-		$model=new File;
-	
-		if(isset($_POST['File']))
-		{
-			$model->attributes=$_POST['File'];
-			$model->file=CUploadedFile::getInstance($model, 'file');
-			if($model->validate())
-			{
-				$model->name=$model->file->name;
-				$model->extension=$model->file->extensionName;
-				$model->type=$model->file->type;
-				$model->size=$model->file->size;
-				$model->account_id=Yii::app()->user->id;
-				$model->save(false);
-				
-				mkdir($model->directoryPath);
-				$model->file->saveAs($model->path);
-				
-				if($model->isImage())
-				{
-					mkdir($model->thumbnailDirectoryPath);
-					Yii::app()->thumbnailer->generate($model->path,$model->thumbnailPath);
-				}
-				
-				$this->redirect(array('view','id'=>$model->id));
-			}
-		}
-	
-		$this->render('upload',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
