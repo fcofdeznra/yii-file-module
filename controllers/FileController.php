@@ -110,7 +110,18 @@ class FileController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$model=$this->loadModel($id);
+		
+		unlink($model->path);
+		rmdir($model->directoryPath);
+		
+		if($model->isImage())
+		{
+			unlink($model->thumbnailPath);
+			rmdir($model->thumbnailDirectoryPath);
+		}
+		
+		$model->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
