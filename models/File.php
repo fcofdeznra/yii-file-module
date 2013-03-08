@@ -51,10 +51,7 @@ class File extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('file', 'file'),
-// 			array('name, extension, type, size, account_id', 'required'),
-// 			array('size, account_id', 'numerical', 'integerOnly'=>true),
-// 			array('name, extension, type', 'length', 'max'=>128),
+			array_merge(array('file', 'file'), Yii::app()->controller->module->validatorProperties),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('name, extension, size', 'safe', 'on'=>'search'),

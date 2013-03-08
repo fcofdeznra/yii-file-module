@@ -7,6 +7,7 @@ class FileModule extends CWebModule
 	public $filesUrl;
 	public $thumbnailsUrl;
 	public $iconsUrl;
+	public $validatorProperties=array();
 	
 	public function init()
 	{
