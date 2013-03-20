@@ -163,4 +163,16 @@ class File extends CActiveRecord
 				Yii::app()->controller->module->iconsUrl.'/'.
 				str_replace('/', '-', $this->type) .'.png';
 	}
+	
+	public function behaviors()
+	{
+		if(isset(Yii::app()->controller->module->ownerIdProperty))
+			return array(
+				'belongsTo'=>array(
+					'class'=>'BelongsToBehavior',
+					'ownerIdProperty'=>Yii::app()->controller->module->ownerIdProperty,
+				),
+			);
+		return array();
+	}
 }

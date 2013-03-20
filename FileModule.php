@@ -9,6 +9,8 @@ class FileModule extends CWebModule
 	public $iconsUrl;
 	public $validatorProperties=array();
 	
+	public $ownerIdProperty;
+	
 	public function init()
 	{
 		// this method is called when the module is being created
