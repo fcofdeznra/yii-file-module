@@ -6,22 +6,20 @@ class BelongsToBehavior extends CActiveRecordBehavior
 	
 	public function beforeSave($event)
 	{
-		$ownerIdProperty=$this->ownerIdProperty;
-		if(!isset($_GET[$ownerIdProperty]))
+		if(!isset($_GET[$this->ownerIdProperty]))
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
-		$ownerIdValue=$_GET[$ownerIdProperty];
+		$ownerIdValue=$_GET[$this->ownerIdProperty];
 		
-		$this->owner->$ownerIdProperty=$ownerIdValue;
+		$this->owner->{$this->ownerIdProperty}=$ownerIdValue;
 	}
 	
 	public function beforeFind($event)
 	{
-		$ownerIdProperty=$this->ownerIdProperty;
-		if(!isset($_GET[$ownerIdProperty]))
+		if(!isset($_GET[$this->ownerIdProperty]))
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
-		$ownerIdValue=$_GET[$ownerIdProperty];
+		$ownerIdValue=$_GET[$this->ownerIdProperty];
 		
-		$this->owner->dbCriteria->addCondition($ownerIdProperty.'=:'.$ownerIdProperty);
-		$this->owner->dbCriteria->params[':'.$ownerIdProperty]=$ownerIdValue;
+		$this->owner->dbCriteria->addCondition("{$this->ownerIdProperty}=:{$this->ownerIdProperty}");
+		$this->owner->dbCriteria->params[":{$this->ownerIdProperty}"]=$ownerIdValue;
 	}
 }

@@ -10,6 +10,8 @@ class FileModule extends CWebModule
 	public $validatorProperties=array();
 	
 	public $ownerIdProperty;
+	public $ownerClass;
+	public $allowExpression;
 	
 	public function init()
 	{
@@ -20,6 +22,7 @@ class FileModule extends CWebModule
 		$this->setImport(array(
 			'file.models.*',
 			'file.components.*',
+			'file.filters.*',
 		));
 	}
 

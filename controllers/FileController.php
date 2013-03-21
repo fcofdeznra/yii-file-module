@@ -15,6 +15,12 @@ class FileController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
+			array(
+				'BelongsToFilter',
+				'ownerIdProperty'=>Yii::app()->controller->module->ownerIdProperty,
+				'ownerClass'=>Yii::app()->controller->module->ownerClass,
+				'allowExpression'=>Yii::app()->controller->module->allowExpression,
+			),
 			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
