@@ -163,4 +163,11 @@ class FileController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	public function createUrl($route,$params=array(),$ampersand='&')
+	{
+		if(isset($this->module->ownerIdProperty) && $route!='' && $route[0]!=='/')
+			$params[$this->module->ownerIdProperty]=$_GET[$this->module->ownerIdProperty];
+		return parent::createUrl($route,$params,$ampersand);
+	}
 }
