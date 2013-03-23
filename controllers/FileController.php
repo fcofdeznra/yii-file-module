@@ -13,16 +13,20 @@ class FileController extends Controller
 	 */
 	public function filters()
 	{
-		return array(
+		$filters=array(
 			'accessControl', // perform access control for CRUD operations
-			array(
+			'postOnly + delete', // we only allow deletion via POST request
+		);
+		if(isset($this->module->ownerIdProperty)
+			&& isset($this->module->ownerClass)
+			&& isset($this->module->allowExpression))
+			array_push($filters, array(
 				'BelongsToFilter',
 				'ownerIdProperty'=>Yii::app()->controller->module->ownerIdProperty,
 				'ownerClass'=>Yii::app()->controller->module->ownerClass,
 				'allowExpression'=>Yii::app()->controller->module->allowExpression,
-			),
-			'postOnly + delete', // we only allow deletion via POST request
-		);
+			));
+		return $filters;
 	}
 
 	/**

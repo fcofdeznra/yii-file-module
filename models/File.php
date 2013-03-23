@@ -166,13 +166,12 @@ class File extends CActiveRecord
 	
 	public function behaviors()
 	{
+		$behaviors=array();
 		if(isset(Yii::app()->controller->module->ownerIdProperty))
-			return array(
-				'belongsTo'=>array(
-					'class'=>'BelongsToBehavior',
-					'ownerIdProperty'=>Yii::app()->controller->module->ownerIdProperty,
-				),
+			$behaviors['belongsTo']=array(
+				'class'=>'BelongsToBehavior',
+				'ownerIdProperty'=>Yii::app()->controller->module->ownerIdProperty,
 			);
-		return array();
+		return $behaviors;
 	}
 }
