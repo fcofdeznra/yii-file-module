@@ -1,6 +1,6 @@
 <?php
 
-class BelongsToBehavior extends CActiveRecordBehavior
+class BelongsToBehavior extends CountEventsActiveRecordBehavior
 {
 	public $ownerIdProperty;
 	
@@ -14,6 +14,16 @@ class BelongsToBehavior extends CActiveRecordBehavior
 	}
 	
 	public function beforeFind($event)
+	{
+		$this->beforeFindCount($event);
+	}
+	
+	public function beforeCount($event)
+	{
+		$this->beforeFindCount($event);
+	}
+	
+	private function beforeFindCount($event)
 	{
 		if(!isset($_GET[$this->ownerIdProperty]))
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');

@@ -19,7 +19,7 @@
  * @property string thumbnailUrl
  * @property string iconUrl
  */
-class File extends CActiveRecord
+class File extends CountEventsActiveRecord
 {
 	private static $IMAGE_EXTENSIONS = array('gif','png','jpg','bmp','gd','gd2');
 	
