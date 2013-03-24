@@ -17,4 +17,12 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
-)); ?>
+)); 
+
+Yii::app()->clientScript->registerCss('pager',<<<EOT
+.pager
+{
+	clear: both;
+}
+EOT
+); ?>
