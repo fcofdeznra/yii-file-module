@@ -13,6 +13,8 @@ class FileModule extends CWebModule
 	public $ownerClass;
 	public $allowExpression;
 	
+	public $quota;
+	
 	public function init()
 	{
 		// this method is called when the module is being created
@@ -23,6 +25,7 @@ class FileModule extends CWebModule
 			'file.models.*',
 			'file.components.*',
 			'file.filters.*',
+			'file.validators.*',
 		));
 	}
 

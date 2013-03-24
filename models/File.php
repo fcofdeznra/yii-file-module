@@ -50,12 +50,15 @@ class File extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
+		$rules=array(
 			array_merge(array('file', 'file'), Yii::app()->controller->module->validatorProperties),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('name, extension, size', 'safe', 'on'=>'search'),
 		);
+		if(isset(Yii::app()->controller->module->quota))
+			array_push($rules, array('file', 'QuotaValidator', 'quota'=>Yii::app()->controller->module->quota));
+		return $rules;
 	}
 
 	/**
