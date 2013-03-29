@@ -38,7 +38,7 @@ class FileController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'index', 'upload', 'admin' and 'delete' actions
-				'actions'=>array('index','upload','admin','delete'),
+				'actions'=>array('index','upload','admin','delete','browse'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -53,9 +53,17 @@ class FileController extends Controller
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('File');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		if(Yii::app()->request->isAjaxRequest)
+		{
+			Yii::app()->clientScript->scriptMap['jquery.js']=false;
+			$this->renderPartial('_index',array(
+				'dataProvider'=>$dataProvider,
+			), false, true);
+		}
+		else
+			$this->render('index',array(
+				'dataProvider'=>$dataProvider,
+			));
 	}
 
 	/**
@@ -91,9 +99,14 @@ class FileController extends Controller
 			}
 		}
 	
-		$this->render('upload',array(
-			'model'=>$model,
-		));
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('_upload',array(
+				'model'=>$model,
+			), false, true);
+		else
+			$this->render('upload',array(
+				'model'=>$model,
+			));
 	}
 
 	/**
@@ -105,10 +118,18 @@ class FileController extends Controller
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['File']))
 			$model->attributes=$_GET['File'];
-	
-		$this->render('admin',array(
+		
+		if(Yii::app()->request->isAjaxRequest)
+		{
+			Yii::app()->clientScript->scriptMap['jquery.js']=false;
+			$this->renderPartial('_admin',array(
 				'model'=>$model,
-		));
+			), false, true);
+		}
+		else
+			$this->render('admin',array(
+				'model'=>$model,
+			));
 	}
 
 	/**
@@ -134,6 +155,11 @@ class FileController extends Controller
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+	}
+	
+	public function actionBrowse()
+	{
+		$this->render('browse');
 	}
 
 	/**

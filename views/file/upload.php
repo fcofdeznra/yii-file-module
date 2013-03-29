@@ -1,7 +1,6 @@
 <?php
 /* @var $this FileController */
 /* @var $model File */
-/* @var $form CActiveForm */
 
 $this->breadcrumbs=array(
 	'Files'=>array('index'),
@@ -16,28 +15,6 @@ $this->menu=array(
 
 <h1>Upload File</h1>
 
-<div class="form">
-
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'file-form',
-	'enableAjaxValidation'=>false,
-	'htmlOptions'=>array('enctype'=>'multipart/form-data'),
+<?php $this->renderPartial('_upload', array(
+	'model'=>$model,
 )); ?>
-
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'file'); ?>
-		<?php echo $form->fileField($model,'file'); ?>
-		<?php echo $form->error($model,'file'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Upload'); ?>
-	</div>
-
-<?php $this->endWidget(); ?>
-
-</div><!-- form -->

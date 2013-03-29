@@ -7,6 +7,8 @@ class QuotaValidator extends CValidator
 	protected function validateAttribute($model, $attribute)
 	{
 		$file=$model->$attribute;
+		if(!$file)
+			return;
 		
 		$command=Yii::app()->db->createCommand()
 			->select('SUM(size)')
