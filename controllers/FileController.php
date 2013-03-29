@@ -22,9 +22,9 @@ class FileController extends Controller
 			&& isset($this->module->allowExpression))
 			array_push($filters, array(
 				'BelongsToFilter',
-				'ownerIdProperty'=>Yii::app()->controller->module->ownerIdProperty,
-				'ownerClass'=>Yii::app()->controller->module->ownerClass,
-				'allowExpression'=>Yii::app()->controller->module->allowExpression,
+				'ownerIdProperty'=>$this->module->ownerIdProperty,
+				'ownerClass'=>$this->module->ownerClass,
+				'allowExpression'=>$this->module->allowExpression,
 			));
 		return $filters;
 	}

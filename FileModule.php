@@ -15,6 +15,8 @@ class FileModule extends CWebModule
 	
 	public $quota;
 	
+	public $fileSelectedCallback;
+	
 	public function init()
 	{
 		// this method is called when the module is being created

@@ -25,4 +25,13 @@ Yii::app()->clientScript->registerCss('pager',<<<EOT
 	clear: both;
 }
 EOT
-); ?>
+);
+
+Yii::app()->clientScript->registerScript('file_selected',<<<EOT
+function fileSelected(fileUrl)
+{
+	var callback={$this->module->fileSelectedCallback};
+	callback(fileUrl);
+}
+EOT
+, CClientScript::POS_END); ?>
