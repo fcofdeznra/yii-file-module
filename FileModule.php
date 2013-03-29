@@ -15,7 +15,7 @@ class FileModule extends CWebModule
 	
 	public $quota;
 	
-	public $fileSelectedCallback;
+	public $fileSelectedCallback='function(fileUrl){}';
 	
 	public function init()
 	{
