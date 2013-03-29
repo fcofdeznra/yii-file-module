@@ -16,6 +16,7 @@ class FileModule extends CWebModule
 	public $quota;
 	
 	public $fileSelectedCallback='function(fileUrl){}';
+	public $fileSelectedCallbackPath;
 	
 	public function init()
 	{
@@ -29,6 +30,15 @@ class FileModule extends CWebModule
 			'file.filters.*',
 			'file.validators.*',
 		));
+		
+		if(isset($this->fileSelectedCallbackPath))
+		{
+			$this->fileSelectedCallbackPath=Yii::app()->basePath.DIRECTORY_SEPARATOR.$this->fileSelectedCallbackPath;
+			
+			$file=fopen($this->fileSelectedCallbackPath, "r");
+			$this->fileSelectedCallback=fread($file, filesize($this->fileSelectedCallbackPath));
+			fclose($file);
+		}
 	}
 
 	public function beforeControllerAction($controller, $action)
