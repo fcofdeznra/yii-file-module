@@ -18,6 +18,8 @@ class FileModule extends CWebModule
 	public $fileSelectedCallback='function(fileUrl){}';
 	public $fileSelectedCallbackPath;
 	
+	public $pluploadPath;
+	
 	public function init()
 	{
 		// this method is called when the module is being created
@@ -29,6 +31,7 @@ class FileModule extends CWebModule
 			'file.components.*',
 			'file.filters.*',
 			'file.validators.*',
+			'file.widgets.*',
 		));
 		
 		if(isset($this->fileSelectedCallbackPath))
@@ -39,6 +42,8 @@ class FileModule extends CWebModule
 			$this->fileSelectedCallback=fread($file, filesize($this->fileSelectedCallbackPath));
 			fclose($file);
 		}
+		
+		$this->pluploadPath=Yii::app()->basePath.DIRECTORY_SEPARATOR.$this->pluploadPath;
 	}
 
 	public function beforeControllerAction($controller, $action)
